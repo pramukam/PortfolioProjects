@@ -85,7 +85,7 @@ where deaths.continent is not null
 order by 2,3;
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------
--- --use temp table (This oprion is not possible in BigQuery free version)
+-- --use temp table (This option is not possible in BigQuery free version)
 
 -- drop table if exists `covid-364509.covid_deaths.newTable`;
 -- create table `covid-364509.covid_deaths.newTable` (
@@ -128,12 +128,12 @@ select *, (RollingPeopleVaccinated/population)
 from PopvsVac;
 
 
--- creating a view for total population vs Vaccination data
+--creating a view for total population vs Vaccination data
 
--- create view `covid-364509.covid_deaths.percentPopulationVaccinated` as 
--- select  deaths.continent,deaths.location,deaths.date,deaths.population,vacs.new_vaccinations,
--- sum(cast(vacs.new_vaccinations as int)) over (partition by deaths.location order by deaths.location,deaths.date) as RollingPeopleVaccinated
--- from `covid-364509.covid_deaths.covid_deaths` deaths
--- join `covid-364509.covid_deaths.covid_vac` vacs 
--- on deaths.location=vacs.location and deaths.date = vacs.date
--- where deaths.continent is not null;
+create view `covid-364509.covid_deaths.percentPopulationVaccinated` as 
+select  deaths.continent,deaths.location,deaths.date,deaths.population,vacs.new_vaccinations,
+sum(cast(vacs.new_vaccinations as int)) over (partition by deaths.location order by deaths.location,deaths.date) as RollingPeopleVaccinated
+from `covid-364509.covid_deaths.covid_deaths` deaths
+join `covid-364509.covid_deaths.covid_vac` vacs 
+on deaths.location=vacs.location and deaths.date = vacs.date
+where deaths.continent is not null;
